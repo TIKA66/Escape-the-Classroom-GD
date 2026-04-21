@@ -1,0 +1,33 @@
+extends Panel
+
+signal action_selected(action)
+
+@onready var write_button = $WriteButton
+@onready var break_button = $BreakButton
+@onready var sharpen_button = $SharpenButton
+
+func _ready():
+	visible = false
+	
+	write_button.pressed.connect(_on_write_pressed)
+	break_button.pressed.connect(_on_break_pressed)
+	sharpen_button.pressed.connect(_on_sharpen_pressed)
+
+func open(at_position: Vector2):
+	visible = true
+	global_position = at_position + Vector2(-40, -80)
+
+func close():
+	visible = false
+
+func _on_write_pressed():
+	action_selected.emit("write")
+	close()
+
+func _on_break_pressed():
+	action_selected.emit("break")
+	close()
+
+func _on_sharpen_pressed():
+	action_selected.emit("sharpen")
+	close()
